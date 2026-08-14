@@ -1,0 +1,6 @@
+# Red de seguridad: los datos en claro de una operacion NUNCA deben llegar a este repo
+# publico. El visor solo debe servir el llavero cifrado (*.json cifrado), nunca el JSON
+# en claro que vive en el repo de origen (operaciones-gestor/data/tdc/operacion.json).
+operacion.json
+**/operacion.json
+*-NO-SUBIR*
