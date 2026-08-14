@@ -572,7 +572,9 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
   <div class="access-panel">
     <img class="access-logo" src="logo-cdu-blanco.png" alt="CdU">
     <h1 class="access-title" id="accessTitle">Visor del Inversor</h1>
-    <p class="access-context">Acceso privado a los datos de la operación Torres de Cotillas.</p>
+    <!-- Sin nombre de operacion: esta pantalla se ve SIN contrasena, y el nombre delataria
+         de que operacion se trata a cualquiera que reciba el enlace. Mantener generico. -->
+    <p class="access-context">Acceso privado para partícipes de la operación.</p>
     <form class="access-form" id="accessForm" autocomplete="off">
       <div class="access-field">
         <label for="accessPassword">Contraseña</label>
@@ -803,12 +805,8 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 
 <script>
 // El JSON en claro NO se publica nunca (se retiro del sitio el 14-ago: exponia los datos
-// de la operacion sin cifrar). Esta es la COPIA PUBLICADA (repo cdu-visor, sirve en
-// visor.tucambiodeuso.com/tdc): ORIGEN_DATOS queda inutilizado a proposito -- string vacio,
-// no apunta a ninguna URL -- porque aqui no existe ni existira operacion.json; el modo
-// MODO_CLARO ya esta limitado a localhost mas abajo, pero esto es una segunda barrera para
-// que ni siquiera en local-contra-produccion pueda intentarse un fetch que sirva datos sin cifrar.
-// ORIGEN_LLAVERO apunta al propio dominio publicado del visor (mismo origen que index.html).
+// de la operacion sin cifrar). Por eso la previsualizacion local lo lee por ruta relativa
+// desde el propio repositorio, y el sitio publicado solo sirve el llavero cifrado.
 const ORIGEN_DATOS = '';
 const ORIGEN_LLAVERO = 'https://visor.tucambiodeuso.com/tdc/llavero.json';
 
