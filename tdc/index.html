@@ -1011,7 +1011,13 @@ function renderOperacion(){
   ].map(([label,value])=>`<div class="legend-item"><b>${escapeHtml(label)}</b><span>${escapeHtml(valor(value))}</span></div>`).join("");
 }
 function renderPlanos(){
-  const planos=Array.isArray(datosOperacion.planos) ? datosOperacion.planos.filter(plano=>plano && plano.fichero) : [];
+  const planosVistos=new Set();
+  const planos=Array.isArray(datosOperacion.planos) ? datosOperacion.planos.filter(plano=>{
+    if(!plano || !plano.fichero) return false;
+    if(planosVistos.has(plano.fichero)) return false;
+    planosVistos.add(plano.fichero);
+    return true;
+  }) : [];
   const image=document.getElementById("activePlanImage");
   const button=document.getElementById("activePlanButton");
   const counter=document.getElementById("planCounter");
