@@ -224,7 +224,9 @@ h2{margin:4px 0 0;color:var(--navy);font-size:clamp(24px,3vw,34px);line-height:1
 .note{margin:6px 0 0;color:var(--muted);font-size:14px}
 .card{background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 10px rgba(22,61,96,.05)}
 .forecast-card{padding:20px;background:linear-gradient(180deg,#fff,#fffdfa);overflow:hidden}
-.forecast-grid{display:grid;grid-template-columns:1.35fr repeat(3,minmax(0,1fr));gap:12px}
+/* 6 cifras en 3 columnas = 2 filas exactas, sin huecos muertos.
+   La rentabilidad destaca por estilo (.forecast-item.hero), no por ocupar mas espacio. */
+.forecast-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .forecast-item{
   min-width:0;
   display:grid;
