@@ -223,6 +223,49 @@ h1{
 h2{margin:4px 0 0;color:var(--navy);font-size:clamp(24px,3vw,34px);line-height:1.12;letter-spacing:0}
 .note{margin:6px 0 0;color:var(--muted);font-size:14px}
 .card{background:var(--white);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 10px rgba(22,61,96,.05)}
+.forecast-card{padding:20px;background:linear-gradient(180deg,#fff,#fffdfa);overflow:hidden}
+.forecast-grid{display:grid;grid-template-columns:1.35fr repeat(3,minmax(0,1fr));gap:12px}
+.forecast-item{
+  min-width:0;
+  display:grid;
+  align-content:space-between;
+  min-height:126px;
+  border:1px solid rgba(22,61,96,.13);
+  border-radius:8px;
+  padding:15px;
+  background:#fff;
+}
+.forecast-item.hero{
+  min-height:154px;
+  background:linear-gradient(135deg,var(--navy2),var(--navy));
+  border-color:rgba(22,61,96,.26);
+  color:var(--cream);
+  box-shadow:0 18px 42px rgba(22,61,96,.18);
+}
+.forecast-label{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.8px;
+  line-height:1.25;
+  text-transform:uppercase;
+}
+.forecast-value{
+  display:block;
+  min-width:0;
+  margin-top:18px;
+  color:var(--navy);
+  font-size:clamp(23px,3.1vw,38px);
+  font-weight:900;
+  line-height:1;
+  overflow-wrap:anywhere;
+}
+.forecast-item.hero .forecast-label{color:#ffe0aa}
+.forecast-item.hero .forecast-value{color:var(--white);font-size:clamp(38px,6.2vw,76px)}
+.forecast-item.positive .forecast-value{color:var(--ok)}
+.forecast-item.pending .forecast-value{font-size:clamp(16px,2vw,22px);line-height:1.14;color:var(--muted)}
+.forecast-item.hero.pending .forecast-value{color:rgba(253,251,247,.86);font-size:clamp(23px,3.4vw,38px)}
+.forecast-note{margin-top:12px}
 .plan-card{padding:18px;overflow:hidden;background:linear-gradient(180deg,#fff,#fffdfa)}
 .plan-wrap{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px;align-items:center}
 .plan-frame{padding:14px;border:1px solid rgba(22,61,96,.13);border-radius:12px;background:#fbf6eb;box-shadow:0 16px 38px rgba(22,61,96,.08)}
@@ -556,6 +599,8 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 @keyframes progressRun{0%,100%{filter:brightness(1)}50%{filter:brightness(1.18);box-shadow:0 0 18px rgba(226,159,52,.38)}}
 @media(max-width:1040px){
   .hero-grid,.plan-wrap{grid-template-columns:1fr}
+  .forecast-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .forecast-item.hero{grid-column:1/-1}
   .finance-summary{grid-template-columns:1fr}
   .tranche-grid{grid-template-columns:1fr}
   .folder-grid{grid-template-columns:repeat(2,1fr)}
@@ -569,6 +614,10 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
   .hero-copy{min-height:0}
   .operation-location{width:100%;font-size:13px}
   .phase-line,.pulse-meta,.camera-grid,.folder-grid{grid-template-columns:1fr}
+  .forecast-grid{grid-template-columns:1fr}
+  .forecast-card{padding:14px}
+  .forecast-item{min-height:112px;padding:14px}
+  .forecast-value{font-size:clamp(22px,8vw,32px)}
   .section-head{display:block}
   .milestones{grid-template-columns:repeat(10,162px);margin-inline:-14px;padding-inline:14px}
   .gantt-note{flex-wrap:wrap;align-items:flex-start}
@@ -643,6 +692,19 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
   </header>
 
   <main class="page">
+    <section class="section" id="escenarioEconomicoSection" hidden>
+      <div class="section-head">
+        <div>
+          <div class="kicker">Escenario económico</div>
+          <h2>Números clave de la operación</h2>
+          <p class="note">Escenario estimado de previsión; no es un resultado cerrado.</p>
+        </div>
+      </div>
+      <div class="card forecast-card">
+        <div class="forecast-grid" id="forecastGrid"></div>
+      </div>
+    </section>
+
     <section class="section" id="transformacion">
       <div class="section-head">
         <div>
@@ -961,6 +1023,33 @@ function renderProximoReporte(){
     <b>${escapeHtml(valor(reporte.fecha))}</b>
     <p>${escapeHtml(valor(reporte.texto))}</p>`;
 }
+function renderEscenarioEconomico(){
+  const section=document.getElementById("escenarioEconomicoSection");
+  const grid=document.getElementById("forecastGrid");
+  if(!Object.prototype.hasOwnProperty.call(datosOperacion,"escenario_economico")){
+    section.hidden=true;
+    grid.innerHTML="";
+    return;
+  }
+  const escenario=datosOperacion.escenario_economico || {};
+  const items=[
+    ["Rentabilidad sobre el capital", escenario.rentabilidad_capital, "hero positive"],
+    ["Inversión total", escenario.inversion_total, ""],
+    ["Capital de los inversores", escenario.capital_inversores, ""],
+    ["Venta prevista realista", escenario.venta_prevista_realista, ""],
+    ["Venta prevista optimista", escenario.venta_prevista_optimista, ""],
+    ["Beneficio previsto", escenario.beneficio_realista, "positive"]
+  ];
+  section.hidden=false;
+  grid.innerHTML=items.map(([label,value,classes])=>{
+    const pendiente=value===null || value===undefined || value==="";
+    return `
+      <article class="forecast-item ${escapeAttr(classes)}${pendiente ? " pending" : ""}">
+        <span class="forecast-label">${escapeHtml(label)}</span>
+        <b class="forecast-value">${escapeHtml(valor(value))}</b>
+      </article>`;
+  }).join("");
+}
 function renderHitos(){
   const items=datosOperacion.hitos || [];
   const conseguidos=items.filter(item=>item.estado==="conseguido").length;
@@ -1184,6 +1273,7 @@ function renderTodo(){
   renderOperacion();
   renderEstado();
   renderProximoReporte();
+  renderEscenarioEconomico();
   renderHitos();
   renderGantt();
   renderEconomico();
