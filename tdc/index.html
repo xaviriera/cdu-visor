@@ -893,6 +893,28 @@ function estadoEtiqueta(estado){
   if(estado==="actual") return "En proceso";
   return "Pendiente";
 }
+function calcularPorcentajeAvance(estado){
+  const avanceManual=Number(estado.porcentaje_avance);
+  if(estado.porcentaje_avance !== null && estado.porcentaje_avance !== undefined && estado.porcentaje_avance !== "" && Number.isFinite(avanceManual)){
+    return avanceManual;
+  }
+  const hitos=Array.isArray(datosOperacion.hitos) ? datosOperacion.hitos : [];
+  const pesoTotal=hitos.reduce((total,hito)=>{
+    const peso=Number(hito.peso);
+    return Number.isFinite(peso) ? total+peso : total;
+  },0);
+  if(pesoTotal<=0) return null;
+  // El avance se calcula desde los pesos de los hitos: conseguido suma todo su peso,
+  // actual suma la mitad y pendiente no suma; solo se escribe a mano para forzar un valor.
+  const avance=hitos.reduce((total,hito)=>{
+    const peso=Number(hito.peso);
+    if(!Number.isFinite(peso)) return total;
+    if(hito.estado==="conseguido") return total+peso;
+    if(hito.estado==="actual") return total+(peso/2);
+    return total;
+  },0);
+  return Math.round(avance);
+}
 function renderOperacion(){
   const operacion=datosOperacion.operacion || {};
   document.title=`Visor del Inversor · ${valor(operacion.nombre)}`;
@@ -920,8 +942,8 @@ function renderEstado(){
   }).join("");
   // Sin dato de avance NO se pinta un 0%: un cero se lee como "no ha avanzado nada",
   // que es peor que reconocer que el dato aun no esta confirmado.
-  const hayAvance = estado.porcentaje_avance !== null && estado.porcentaje_avance !== undefined && estado.porcentaje_avance !== "";
-  const avance = hayAvance ? Number(estado.porcentaje_avance) : null;
+  const avance = calcularPorcentajeAvance(estado);
+  const hayAvance = avance !== null;
   const progressBar=document.getElementById("progressBar");
   progressBar.setAttribute("aria-label", hayAvance ? `${avance}% de avance global de operación` : "Avance global pendiente de confirmar");
   progressBar.querySelector("span").style.setProperty("--progress", hayAvance ? `${avance}%` : "0%");
