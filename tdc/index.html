@@ -195,6 +195,7 @@ h1{
 .phase.active{border-color:rgba(226,159,52,.58);background:rgba(226,159,52,.14)}
 .phase small{display:flex;align-items:center;gap:7px;color:rgba(253,251,247,.82);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px}
 .phase b{display:block;margin-top:6px;color:var(--white);font-size:13px}
+.phase-desc{display:block;margin-top:3px;color:rgba(253,251,247,.66);font-size:11px;font-weight:600;line-height:1.3}
 .check{
   display:inline-grid;
   place-items:center;
@@ -690,7 +691,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
         </div>
         <!-- Aclara QUE mide el porcentaje: sin esto, ver un 31% con la obra sin empezar
              se lee como avance de obra y parece inflado. -->
-        <p class="progress-scope">Sobre el conjunto de la operación: compra, licencias, obra y venta.</p>
+        <p class="progress-scope">Mide la operación completa, desde la captación y el estudio de viabilidad hasta la venta. Las fases 1 y 2 ya están cerradas.</p>
         <div class="pulse-meta" id="pulseMeta"></div>
         <div class="mini next-report" id="nextReport"></div>
       </section>
@@ -1006,7 +1007,10 @@ function renderEstado(){
   document.getElementById("phaseLine").innerHTML=(estado.fases || []).map(fase=>{
     const clase=estadoClase(fase.estado);
     const icono=clase==="done" ? '<span class="check">✓</span>' : '<span class="dot"></span>';
-    return `<div class="phase ${escapeAttr(clase)}"><small>${icono} ${escapeHtml(estadoEtiqueta(fase.estado))}</small><b>${escapeHtml(valor(fase.nombre))}</b></div>`;
+    // La descripcion importa: "GO", "MAP" y "EXITO" no dicen nada a un participe.
+    // Con ella se entiende que la operacion empezo mucho antes de la obra.
+    const desc = fase.descripcion ? `<span class="phase-desc">${escapeHtml(fase.descripcion)}</span>` : "";
+    return `<div class="phase ${escapeAttr(clase)}"><small>${icono} ${escapeHtml(estadoEtiqueta(fase.estado))}</small><b>${escapeHtml(valor(fase.nombre))}</b>${desc}</div>`;
   }).join("");
   // Sin dato de avance NO se pinta un 0%: un cero se lee como "no ha avanzado nada",
   // que es peor que reconocer que el dato aun no esta confirmado.
