@@ -210,6 +210,7 @@ h1{
 .bar{height:12px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden}
 .bar span{display:block;width:var(--progress,0%);height:100%;border-radius:999px;background:linear-gradient(90deg,var(--ochre),#f4c36d);animation:progressRun 2.8s ease-in-out infinite}
 .pct{font-size:34px;line-height:1;font-weight:900;color:var(--white)}
+.progress-scope{margin:8px 0 0;color:rgba(253,251,247,.62);font-size:11px;font-weight:600;letter-spacing:.2px}
 .pulse-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .mini{min-height:86px;border:1px solid rgba(253,251,247,.14);background:rgba(255,255,255,.06);border-radius:8px;padding:13px}
 .mini span{display:block;color:#ffe0aa;font-size:10px;font-weight:900;letter-spacing:.9px;text-transform:uppercase}
@@ -687,6 +688,9 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
           <div class="bar" id="progressBar" aria-label="0% de avance global de operación"><span></span></div>
           <div class="pct" id="progressPct">0%</div>
         </div>
+        <!-- Aclara QUE mide el porcentaje: sin esto, ver un 31% con la obra sin empezar
+             se lee como avance de obra y parece inflado. -->
+        <p class="progress-scope">Sobre el conjunto de la operación: compra, licencias, obra y venta.</p>
         <div class="pulse-meta" id="pulseMeta"></div>
         <div class="mini next-report" id="nextReport"></div>
       </section>
