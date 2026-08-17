@@ -349,6 +349,19 @@ h2{margin:4px 0 0;color:var(--navy);font-size:clamp(24px,3vw,34px);line-height:1
   .milestone.current{border-color:rgba(226,159,52,.55);box-shadow:0 12px 28px rgba(226,159,52,.16)}
   .milestone.current b,.milestone.todo b{font-size:15px}
 }
+.mov-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:4px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.mov-head span{color:var(--navy);font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+.mov-head b{color:var(--muted);font-size:11px;font-weight:700}
+.mov-list{margin:0 0 14px;padding:0;list-style:none;max-height:420px;overflow-y:auto}
+.mov{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid rgba(22,61,96,.07)}
+.mov:last-child{border-bottom:0}
+.mov-main{min-width:0;display:flex;flex-direction:column;gap:2px}
+.mov-date{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.5px}
+.mov-concept{color:var(--navy);font-size:12.5px;font-weight:600;line-height:1.35;overflow-wrap:anywhere}
+.mov-amount{flex:0 0 auto;font-size:13px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mov-amount.in{color:var(--ok)}
+.mov-amount.out{color:var(--navy)}
+.statement-open.block{display:block;margin-top:6px;text-align:center}
 .plan-empty{padding:28px;border:1px dashed rgba(22,61,96,.22);border-radius:10px;background:#fff;color:var(--muted);font-size:13px;font-weight:800;text-align:center}
 .legend{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;color:var(--muted);font-size:12px;font-weight:500;line-height:1.45}
 .legend-item{display:inline-flex;align-items:baseline;gap:5px;min-width:0}
@@ -1357,6 +1370,30 @@ function renderGantt(){
   `).join("");
   document.getElementById("gantt").innerHTML=head+rows;
 }
+// Lista de movimientos legible (el PDF incrustado no se renderiza en navegadores moviles).
+// Los datos salen del propio extracto del banco: misma fuente, otra presentacion.
+function renderMovimientos(movs){
+  if(!Array.isArray(movs) || !movs.length) return "";
+  const filas=movs.map(m=>{
+    const imp=String(m.importe||"");
+    const entrada=!imp.trim().startsWith("-");
+    const signo=entrada?"in":"out";
+    return `
+      <li class="mov ${signo}">
+        <div class="mov-main">
+          <span class="mov-date">${escapeHtml(m.fecha||"")}</span>
+          <span class="mov-concept">${escapeHtml(m.concepto||"")}</span>
+        </div>
+        <span class="mov-amount ${signo}">${escapeHtml(imp)} €</span>
+      </li>`;
+  }).join("");
+  return `
+    <div class="mov-head">
+      <span>Movimientos de la cuenta</span>
+      <b>${movs.length} apuntes</b>
+    </div>
+    <ul class="mov-list">${filas}</ul>`;
+}
 function renderEconomico(){
   const cuentas=datosOperacion.cuentas || {};
   document.getElementById("iban").innerHTML=`${escapeHtml(valor(cuentas.iban))} <small>Cuenta dedicada de la operación</small>`;
@@ -1411,8 +1448,8 @@ function renderExtractoBancario(cuentas){
     </div>
     ${fallback ? "" : `<iframe class="statement-frame" src="${escapeAttr(pdfUrl)}#navpanes=0&toolbar=1" title="Extracto bancario Santander ${escapeAttr(periodo)}"></iframe>`}
     <div class="statement-mobile">
-      <p>En móvil el visor integrado puede no estar disponible.</p>
-      <a class="statement-open" href="${escapeAttr(pdfUrl)}" target="_blank" rel="noopener">Abrir el extracto del banco</a>
+      ${renderMovimientos(cuentas.movimientos)}
+      <a class="statement-open block" href="${escapeAttr(pdfUrl)}" target="_blank" rel="noopener">Abrir el extracto oficial del banco</a>
     </div>`;
   const frame=contenedor.querySelector(".statement-frame");
   if(frame){
