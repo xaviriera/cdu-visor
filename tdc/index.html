@@ -1821,7 +1821,13 @@ function configurarAcceso(){
   const input=document.getElementById("accessPassword");
   const button=document.getElementById("accessSubmit");
   const error=document.getElementById("accessError");
-  input.focus();
+  // Solo enfocamos solos en escritorio. En movil el enfoque automatico abre el teclado
+  // de golpe y ademas activaba el modo compacto antes de que el usuario tocase nada,
+  // asi que el logo salia ya reducido (y de forma erratica, porque cada navegador
+  // trata el enfoque automatico a su manera).
+  if(window.matchMedia("(min-width:900px)").matches && !("ontouchstart" in window)){
+    input.focus();
+  }
   form.addEventListener("submit",async event=>{
     event.preventDefault();
     const password=input.value;
