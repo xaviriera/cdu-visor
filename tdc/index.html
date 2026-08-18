@@ -348,8 +348,7 @@ h2{margin:4px 0 0;color:var(--navy);font-size:clamp(24px,3vw,34px);line-height:1
 .statement-open.block{display:block;padding:13px 18px;border-radius:10px;background:var(--navy);color:#fff;font-size:13px;font-weight:700;text-align:center;text-decoration:none}
 /* --- Fases plegables --- */
 .milestone-phase-head{width:100%;border:0;font-family:inherit;text-align:left;cursor:pointer}
-.milestone-phase-body{display:none}
-.milestone-phase[data-abierta] .milestone-phase-body{display:block}
+.milestone-phase:not([data-abierta])>.milestone-phase-body{display:none!important}
 .phase-caret{flex:0 0 auto;width:11px;height:11px;margin-left:6px;border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);transform:rotate(45deg);transition:transform .2s ease;opacity:.55}
 .milestone-phase[data-abierta] .phase-caret{transform:rotate(-135deg)}
 .milestone-phase.phase-current{border-color:rgba(226,159,52,.5);box-shadow:0 16px 40px rgba(226,159,52,.14)}
