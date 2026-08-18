@@ -50,7 +50,7 @@ body{
 }
 button,a{font:inherit}
 button{cursor:pointer}
-.shell{min-height:100vh}
+.shell{min-height:100vh;min-height:100dvh}
 .hero{
   color:var(--white);
   background:linear-gradient(135deg,var(--navy2),var(--navy));
@@ -391,6 +391,19 @@ h2{margin:4px 0 0;color:var(--navy);font-size:clamp(24px,3vw,34px);line-height:1
 .gantt-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
 .gantt-swipe{margin:0 0 6px}
 @media(min-width:721px){.gantt-swipe{display:none}}
+/* La pantalla de acceso debe caber entera aunque salga el teclado o la pantalla sea baja */
+@media(max-height:720px){
+  .access-logo{width:min(132px,40vw)}
+  .access-title{font-size:clamp(20px,5.5vw,26px)}
+  .access-panel{gap:13px}
+  .access-context{font-size:12.5px}
+}
+@media(max-height:560px){
+  .access-logo{width:min(96px,30vw)}
+  .access-title{font-size:19px;margin-top:2px}
+  .access-panel{gap:9px}
+  .access-context{display:none}
+}
 .plan-empty{padding:28px;border:1px dashed rgba(22,61,96,.22);border-radius:10px;background:#fff;color:var(--muted);font-size:13px;font-weight:800;text-align:center}
 .legend{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;color:var(--muted);font-size:12px;font-weight:500;line-height:1.45}
 .legend-item{display:inline-flex;align-items:baseline;gap:5px;min-width:0}
@@ -668,9 +681,11 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 .data-warning[hidden]{display:none}
 .access-screen{
   min-height:100vh;
+  min-height:100dvh;
   display:grid;
   place-items:center;
-  padding:34px 18px;
+  padding:clamp(18px,4vh,34px) 18px;
+  overflow-y:auto;
   color:var(--cream);
   background:var(--navy);
 }
@@ -1826,6 +1841,17 @@ if(MODO_CLARO){
   configurarAcceso();
 }
 window.addEventListener("pagehide",liberarExtractoPdfUrl);
+// Con el teclado abierto la pantalla se encoge: mantener el formulario a la vista.
+(function(){
+  const campo=document.getElementById("accessPassword");
+  if(!campo) return;
+  campo.addEventListener("focus",()=>{
+    setTimeout(()=>{
+      const panel=campo.closest(".access-panel")||campo;
+      panel.scrollIntoView({block:"center",behavior:"smooth"});
+    },320);
+  });
+})();
 </script>
 </body>
 </html>
