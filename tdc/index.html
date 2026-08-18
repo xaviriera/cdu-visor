@@ -465,6 +465,11 @@ body.bloqueado{background:var(--navy)}
 .gantt-scroll.at-end + .gantt-swipe,.gantt-scroll.at-end .scroll-nudge{opacity:.35}
 @media(prefers-reduced-motion:reduce){.gantt-swipe .scroll-nudge b{animation:none}}
 .tranche-fecha{margin-left:auto;color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap}
+.pass-wrap{position:relative;display:block}
+.pass-wrap input{width:100%;padding-right:52px}
+.pass-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:10px;background:transparent;color:rgba(253,251,247,.72);cursor:pointer;transition:color .2s ease,background .2s ease}
+.pass-eye:hover,.pass-eye:focus-visible{color:var(--ochre);background:rgba(253,251,247,.08)}
+.pass-eye:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
 .plan-empty{padding:28px;border:1px dashed rgba(22,61,96,.22);border-radius:10px;background:#fff;color:var(--muted);font-size:13px;font-weight:800;text-align:center}
 .legend{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;color:var(--muted);font-size:12px;font-weight:500;line-height:1.45}
 .legend-item{display:inline-flex;align-items:baseline;gap:5px;min-width:0}
@@ -894,7 +899,16 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
     <form class="access-form" id="accessForm" autocomplete="off">
       <div class="access-field">
         <label for="accessPassword">Contraseña</label>
-        <input id="accessPassword" name="password" type="password" autocomplete="current-password" required>
+        <div class="pass-wrap">
+          <input id="accessPassword" name="password" type="password" autocomplete="current-password" required>
+          <button class="pass-eye" id="passEye" type="button" aria-label="Mostrar contraseña" aria-pressed="false">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="eye-on" d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/>
+              <circle class="eye-on" cx="12" cy="12" r="3"/>
+              <path class="eye-off" d="M3 3l18 18" style="display:none"/>
+            </svg>
+          </button>
+        </div>
       </div>
       <button class="access-submit" id="accessSubmit" type="submit">Entrar</button>
       <p class="access-error" id="accessError" role="alert" aria-live="assertive"></p>
@@ -1926,6 +1940,20 @@ if(MODO_CLARO){
   configurarAcceso();
 }
 window.addEventListener("pagehide",liberarExtractoPdfUrl);
+// Ver/ocultar la contrasena: menos errores al teclear un DNI en el movil
+(function(){
+  const ojo=document.getElementById("passEye");
+  const campo=document.getElementById("accessPassword");
+  if(!ojo || !campo) return;
+  ojo.addEventListener("click",()=>{
+    const visible=campo.type==="text";
+    campo.type=visible ? "password" : "text";
+    ojo.setAttribute("aria-pressed", visible ? "false" : "true");
+    ojo.setAttribute("aria-label", visible ? "Mostrar contraseña" : "Ocultar contraseña");
+    ojo.querySelector(".eye-off").style.display = visible ? "none" : "";
+    campo.focus();
+  });
+})();
 </script>
 </body>
 </html>
