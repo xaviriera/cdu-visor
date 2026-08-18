@@ -695,6 +695,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 .access-screen{
   position:fixed;
   inset:0;
+  height:100dvh;
   z-index:60;
   display:flex;
   overflow-y:auto;
@@ -1856,6 +1857,25 @@ if(MODO_CLARO){
   configurarAcceso();
 }
 window.addEventListener("pagehide",liberarExtractoPdfUrl);
+// El teclado movil NO encoge la ventana en iOS: desplaza la vista. Por eso una capa
+// fijada se descoloca y el logo se sale por arriba. visualViewport si informa del area
+// REALMENTE visible, asi que ajustamos la pantalla de acceso a ella.
+(function(){
+  const vv=window.visualViewport;
+  if(!vv) return;
+  const ajustar=()=>{
+    const capa=document.querySelector(".access-screen");
+    if(!capa || capa.hidden || capa.offsetParent===null) return;
+    capa.style.height=vv.height+"px";
+    capa.style.top=vv.offsetTop+"px";
+    capa.style.left=vv.offsetLeft+"px";
+  };
+  vv.addEventListener("resize",ajustar);
+  vv.addEventListener("scroll",ajustar);
+  window.addEventListener("orientationchange",()=>setTimeout(ajustar,250));
+  document.addEventListener("DOMContentLoaded",ajustar);
+  ajustar();
+})();
 </script>
 </body>
 </html>
