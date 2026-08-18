@@ -464,6 +464,7 @@ body.bloqueado{background:var(--navy)}
 @keyframes empuja{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
 .gantt-scroll.at-end + .gantt-swipe,.gantt-scroll.at-end .scroll-nudge{opacity:.35}
 @media(prefers-reduced-motion:reduce){.gantt-swipe .scroll-nudge b{animation:none}}
+.tranche-fecha{margin-left:auto;color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap}
 .plan-empty{padding:28px;border:1px dashed rgba(22,61,96,.22);border-radius:10px;background:#fff;color:var(--muted);font-size:13px;font-weight:800;text-align:center}
 .legend{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;color:var(--muted);font-size:12px;font-weight:500;line-height:1.45}
 .legend-item{display:inline-flex;align-items:baseline;gap:5px;min-width:0}
@@ -1506,7 +1507,7 @@ function renderEconomico(){
     const nota=tieneNota ? `<details class="tranche-detail"><summary>Ver detalle</summary><p>${escapeHtml(item.nota)}</p></details>` : "";
     const importe=item.importe ? `<strong class="tranche-amount">${escapeHtml(item.importe)}</strong>` : "";
     return `
-    <div class="tranche ${ok?"done":"pending"}"><div class="tranche-line"><span class="tranche-name">${escapeHtml(valor(item.nombre))}</span><span class="tranche-pill ${ok?"done":"pending"}">${ok?"Confirmado":"Pendiente"}</span>${importe}</div>${nota}</div>`;
+    <div class="tranche ${ok?"done":"pending"}"><div class="tranche-line"><span class="tranche-name">${escapeHtml(valor(item.nombre))}</span><span class="tranche-pill ${ok?"done":"pending"}">${ok?"Confirmado":"Pendiente"}</span>${importe || (item.fecha ? `<span class="tranche-fecha">${escapeHtml(item.fecha)}</span>` : "")}</div>${nota}</div>`;
   }).join("");
   document.getElementById("financeSummary").innerHTML=[
     ["Tramos", (cuentas.tramos || []).length || null, "Número de tramos configurados"],
