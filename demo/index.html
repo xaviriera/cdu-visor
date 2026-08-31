@@ -173,17 +173,36 @@ h1{
   font-size:clamp(16px,1.65vw,20px);
   font-weight:800;
 }
-/* Nota fina de demostracion bajo el titulo de la operacion: discreta, no un cartel.
-   Reutiliza el resumen_una_linea de la operacion (campo compartido con planNote),
-   pero aqui se pinta como pie de bloque, en el color de texto secundario del hero. */
+/* Aviso de demostracion bajo el titulo de la operacion: recuadro propio, con icono,
+   en la paleta ochre/navy del hero. Punto medio entre el cartel amarillo chillon
+   original y la nota gris casi invisible que lo sustituyo. */
+.demo-alert{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  width:max-content;
+  max-width:100%;
+  margin:10px 0 0;
+  padding:10px 14px;
+  border:1px solid rgba(226,159,52,.4);
+  border-radius:10px;
+  background:rgba(226,159,52,.1);
+}
+.demo-alert-icon{
+  flex:none;
+  font-size:14px;
+  line-height:1.5;
+  margin-top:1px;
+}
 .demo-note{
-  margin:8px 0 0;
-  color:rgba(253,251,247,.62);
+  margin:0;
+  color:rgba(253,251,247,.88);
   font-size:11.5px;
   font-weight:500;
   line-height:1.5;
-  font-style:italic;
+  font-style:normal;
 }
+@media(max-width:700px){.demo-alert{width:100%;padding:9px 12px}}
 .operation-location{
   display:flex;
   flex-wrap:wrap;
@@ -955,6 +974,10 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
   .milestone-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .tranche-grid{grid-template-columns:1fr}
   .folder-grid{grid-template-columns:repeat(2,1fr)}
+  /* Aviso de demo del hero: con hero-grid a 1 columna, un track 1fr sin minmax(0,1fr)
+     deja que este recuadro (width:max-content) fuerce su propio ancho de contenido y
+     desborde la pantalla en tablet. Se ancla a 100% ya en este breakpoint, no solo en movil. */
+  .demo-alert{width:100%;box-sizing:border-box}
 }
 @media(max-width:700px){
   .topbar{align-items:flex-start}
@@ -1043,7 +1066,10 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
         </div>
         <div class="operation-block">
           <h1 id="operationName">Operación: pendiente de confirmar</h1>
-          <p class="demo-note" id="operationSummary">pendiente de confirmar</p>
+          <div class="demo-alert">
+            <span class="demo-alert-icon" aria-hidden="true">⚠️</span>
+            <p class="demo-note" id="operationSummary">pendiente de confirmar</p>
+          </div>
           <p class="operation-location" id="operationLocation">pendiente de confirmar</p>
           <p class="subhead">Primero claridad. Luego control. Y al final, resultado. Una operación medida, documentada y visible de principio a fin.</p>
         </div>
