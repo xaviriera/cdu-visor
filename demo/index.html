@@ -65,10 +65,10 @@ html{scroll-behavior:smooth}
 .camera-frame video{display:block;width:100%;height:100%;border:0;background:#000;object-fit:cover}
 .camera-name-badge{position:absolute;left:10px;top:10px;z-index:2;padding:4px 9px;border-radius:999px;background:rgba(11,26,41,.72);color:#fff;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;pointer-events:none}
 .camera-video-note{margin-top:16px;padding:11px 16px;border-radius:10px;background:rgba(226,159,52,.08);border:1px solid rgba(226,159,52,.24);color:var(--navy);font-size:12px;line-height:1.55;text-align:center}
-.demo-footnote{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:11px;letter-spacing:.02em;line-height:1.9}
+.demo-footnote{margin-top:38px;padding-top:24px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:11px;letter-spacing:.02em;line-height:2.05}
 .demo-footnote-line{display:block}
-.demo-footnote-line b{color:var(--navy);font-weight:800;letter-spacing:.015em}
-.demo-footnote-year{display:block;margin-top:5px;font-size:10px;opacity:.72;letter-spacing:.08em;text-transform:uppercase}
+.demo-footnote-line b{color:var(--navy);font-weight:700;letter-spacing:.015em}
+.demo-footnote-year{display:block;margin-top:8px;font-size:10px;opacity:.65;letter-spacing:.08em;text-transform:uppercase}
 body{
   margin:0;
   font-family:Montserrat,Arial,sans-serif;
@@ -348,12 +348,12 @@ h2{margin:4px 0 0;color:var(--navy);font-size:clamp(24px,3vw,34px);line-height:1
 .plan-expand{position:absolute;right:24px;bottom:24px;display:inline-flex;align-items:center;border-radius:999px;padding:8px 11px;background:rgba(253,251,247,.94);border:1px solid rgba(22,61,96,.15);color:var(--navy);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;box-shadow:0 10px 22px rgba(22,61,96,.12);pointer-events:none}
 .plan-tabs{display:flex;gap:12px;max-width:100%;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
 .plan-tabs::-webkit-scrollbar{display:none}
-.legal{max-width:720px;margin:28px auto 14px;padding:18px 22px;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;color:var(--muted);font-size:11.5px;line-height:1.6;text-align:center}
-.legal-mark{margin-bottom:9px;color:var(--navy);font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;opacity:.75}
-.legal p{margin:0 auto 7px;max-width:560px}
+.legal{max-width:720px;margin:36px auto 18px;padding:26px 24px;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;color:var(--muted);font-size:11.5px;line-height:1.85;text-align:center}
+.legal-mark{margin-bottom:14px;color:var(--navy);font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;opacity:.75}
+.legal p{margin:0 auto 12px;max-width:560px}
 .legal b{color:var(--navy);font-weight:700}
-.legal-access{margin-top:7px!important;color:var(--muted);font-size:10.5px;font-style:italic;opacity:.75}
-.legal-year{margin-top:10px!important;padding-top:0;border-top:0;color:var(--muted);font-size:10.5px;font-weight:600;opacity:.8}
+.legal-access{margin-top:12px!important;color:var(--muted);font-size:10.5px;font-style:italic;opacity:.75}
+.legal-year{margin-top:16px!important;padding-top:0;border-top:0;color:var(--muted);font-size:10.5px;font-weight:600;opacity:.8}
 @media(max-width:720px){.legal{padding:24px 20px;text-align:left}.legal p{margin-left:0;max-width:100%}.legal-mark{letter-spacing:1.6px}}
 .cdu-tdc-8f3a91{--cdu-src:'CdU de 0 a Exito'}
 .plan-tabs-hint{margin:0 0 8px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
@@ -1193,8 +1193,8 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
         <div class="section-head">
           <div>
             <div class="kicker">Cámaras de obra</div>
-            <h2>Cámaras grabando la obra</h2>
-            <p class="note" id="obraNote">Tres puntos de seguimiento preparados para activar la señal durante la ejecución.</p>
+            <h2>La obra, en directo</h2>
+            <p class="note" id="obraNote">Accede al proceso del cambio de uso cuando quieras, con un clic.</p>
           </div>
           <span class="badge gray" id="obraBadge">pendiente de confirmar</span>
         </div>
@@ -1273,7 +1273,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
       <p class="legal-year">© 2026 CdU de 0 a Éxito · Todos los derechos reservados</p>
       <p class="demo-footnote">
         <span class="demo-footnote-line">Visor del Inversor</span>
-        <span class="demo-footnote-line">desarrollado por <b>Xavi Riera</b> para CdU de 0 a Éxito</span>
+        <span class="demo-footnote-line">desarrollado por <b>Xavi Riera</b> para <b>CdU de 0 a Éxito</b></span>
         <span class="demo-footnote-year">2026</span>
       </p>
     </footer>
@@ -1896,7 +1896,7 @@ function renderCamaras(){
   insignia.textContent="Time-lapse";
   insignia.className="badge ok";
   const nota=document.getElementById("obraNote");
-  if(nota) nota.textContent="Tres cámaras fijas grabando la obra, cada una con su propio time-lapse.";
+  if(nota) nota.textContent="Accede al proceso del cambio de uso cuando quieras, con un clic.";
   document.getElementById("cameraGrid").innerHTML=ARCHIVOS_TIMELAPSE.map((archivo,indice)=>{
     const nombre=(camaras[indice] && camaras[indice].nombre) ? camaras[indice].nombre : `Cámara ${indice+1}`;
     return `
