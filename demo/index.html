@@ -41,12 +41,12 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 /* --- Banner de demostracion: solo existe en esta copia demo, nunca en el visor real --- */
-.demo-banner{position:relative;z-index:50;display:flex;gap:12px;align-items:flex-start;max-width:1240px;margin:0 auto;background:linear-gradient(135deg,#fff4de,#ffe3b0);border-bottom:3px solid var(--ochre);color:var(--navy2);font-size:12.5px;line-height:1.55;padding:14px clamp(16px,5vw,72px);letter-spacing:.01em;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.demo-banner-icon{flex:none;font-size:19px;line-height:1;margin-top:1px}
+.demo-banner{position:relative;z-index:50;display:flex;gap:14px;align-items:flex-start;max-width:1240px;margin:0 auto;background:linear-gradient(135deg,var(--navy2),var(--navy));border-bottom:1px solid rgba(226,159,52,.4);color:rgba(253,251,247,.92);font-size:12.5px;line-height:1.6;padding:15px clamp(16px,5vw,72px);letter-spacing:.01em}
+.demo-banner-icon{flex:none;font-size:17px;line-height:1;margin-top:1px;color:var(--ochre)}
 .demo-banner-copy{display:block}
-.demo-banner b{display:block;font-weight:900;font-size:13.5px;margin-bottom:3px;color:var(--navy2)}
-.demo-banner-copy>span{display:block;color:var(--navy)}
-@media(max-width:700px){.demo-banner{font-size:11px;padding:11px 14px;gap:9px}.demo-banner-icon{font-size:16px}.demo-banner b{font-size:12px}}
+.demo-banner b{display:block;font-weight:800;font-size:13.5px;margin-bottom:3px;letter-spacing:.01em;color:var(--ochre)}
+.demo-banner-copy>span{display:block;color:rgba(253,251,247,.78);max-width:900px}
+@media(max-width:700px){.demo-banner{font-size:11px;padding:12px 14px;gap:9px}.demo-banner-icon{font-size:16px}.demo-banner b{font-size:11.5px}}
 /* --- Candados de privacidad: bloque tapado, no vacio --- */
 .privacy-locked{display:flex;align-items:flex-start;gap:12px;background:rgba(22,61,96,.04);border:1px dashed var(--line);border-radius:12px;padding:16px 18px;margin-top:10px}
 .privacy-locked svg{flex:none;width:22px;height:22px;color:var(--navy);opacity:.75;margin-top:2px}
@@ -64,8 +64,11 @@ html{scroll-behavior:smooth}
 /* --- Videos time-lapse de obra: sustituyen a las camaras en directo de la demo --- */
 .camera-frame video{display:block;width:100%;height:100%;border:0;background:#000;object-fit:cover}
 .camera-name-badge{position:absolute;left:10px;top:10px;z-index:2;padding:4px 9px;border-radius:999px;background:rgba(11,26,41,.72);color:#fff;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;pointer-events:none}
-.camera-video-note{margin-top:14px;text-align:center;color:var(--muted);font-size:12.5px;font-style:italic}
-.demo-footnote{margin-top:22px;text-align:center;color:var(--muted);font-size:11.5px;letter-spacing:.01em}
+.camera-video-note{margin-top:16px;padding:11px 16px;border-radius:10px;background:rgba(226,159,52,.08);border:1px solid rgba(226,159,52,.24);color:var(--navy);font-size:12px;line-height:1.55;text-align:center}
+.demo-footnote{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:11px;letter-spacing:.02em;line-height:1.9}
+.demo-footnote-line{display:block}
+.demo-footnote-line b{color:var(--navy);font-weight:800;letter-spacing:.015em}
+.demo-footnote-year{display:block;margin-top:5px;font-size:10px;opacity:.72;letter-spacing:.08em;text-transform:uppercase}
 body{
   margin:0;
   font-family:Montserrat,Arial,sans-serif;
@@ -1174,14 +1177,14 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
       <div class="card panel">
         <div class="section-head">
           <div>
-            <div class="kicker">En directo</div>
-            <h2>Sigue la obra en tiempo real</h2>
+            <div class="kicker">Cámaras de obra</div>
+            <h2>Cámaras grabando la obra</h2>
             <p class="note" id="obraNote">Tres puntos de seguimiento preparados para activar la señal durante la ejecución.</p>
           </div>
           <span class="badge gray" id="obraBadge">pendiente de confirmar</span>
         </div>
         <div class="camera-grid" id="cameraGrid"></div>
-        <p class="camera-video-note">Un mes de obra comprimido. Los partícipes lo ven en directo.</p>
+        <p class="camera-video-note">🔒 En el visor real, estas cámaras se ven en directo. Para esta demo se ha montado un time-lapse con los días de obra grabados hasta ahora.</p>
       </div>
     </section>
 
@@ -1253,7 +1256,11 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
       <p>Su contenido, su estructura y su diseño son <b>propiedad de CdU de 0 a Éxito</b>. Queda prohibida su reproducción, copia, difusión o cesión a terceros, total o parcial, sin autorización expresa y por escrito.</p>
       <p class="legal-access">El acceso es nominativo y queda registrado por motivos de seguridad.</p>
       <p class="legal-year">© 2026 CdU de 0 a Éxito · Todos los derechos reservados</p>
-      <p class="demo-footnote">Visor del Inversor · desarrollado por Xavi Riera para CdU de 0 a Éxito · 2026</p>
+      <p class="demo-footnote">
+        <span class="demo-footnote-line">Visor del Inversor</span>
+        <span class="demo-footnote-line">desarrollado por <b>Xavi Riera</b> para CdU de 0 a Éxito</span>
+        <span class="demo-footnote-year">2026</span>
+      </p>
     </footer>
   </main>
 </div>
@@ -1874,7 +1881,7 @@ function renderCamaras(){
   insignia.textContent="Time-lapse";
   insignia.className="badge ok";
   const nota=document.getElementById("obraNote");
-  if(nota) nota.textContent="Tres cámaras fijas, cada una con su propio time-lapse.";
+  if(nota) nota.textContent="Tres cámaras fijas grabando la obra, cada una con su propio time-lapse.";
   document.getElementById("cameraGrid").innerHTML=ARCHIVOS_TIMELAPSE.map((archivo,indice)=>{
     const nombre=(camaras[indice] && camaras[indice].nombre) ? camaras[indice].nombre : `Cámara ${indice+1}`;
     return `
