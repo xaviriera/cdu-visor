@@ -40,13 +40,13 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-/* --- Banner de demostracion: solo existe en esta copia demo, nunca en el visor real --- */
-.demo-banner{position:relative;z-index:50;display:flex;gap:14px;align-items:flex-start;max-width:1240px;margin:0 auto;background:linear-gradient(135deg,var(--navy2),var(--navy));border-bottom:1px solid rgba(226,159,52,.4);color:rgba(253,251,247,.92);font-size:12.5px;line-height:1.6;padding:15px clamp(16px,5vw,72px);letter-spacing:.01em}
-.demo-banner-icon{flex:none;font-size:17px;line-height:1;margin-top:1px;color:var(--ochre)}
-.demo-banner-copy{display:block}
-.demo-banner b{display:block;font-weight:800;font-size:13.5px;margin-bottom:3px;letter-spacing:.01em;color:var(--ochre)}
-.demo-banner-copy>span{display:block;color:rgba(253,251,247,.78);max-width:900px}
-@media(max-width:700px){.demo-banner{font-size:11px;padding:12px 14px;gap:9px}.demo-banner-icon{font-size:16px}.demo-banner b{font-size:11.5px}}
+/* --- Aviso de demostracion: solo existe en esta copia demo, nunca en el visor real.
+     Vive integrado en la pantalla de acceso (no como banner flotante sobre la portada). --- */
+.access-demo-notice{width:100%;display:flex;gap:11px;align-items:flex-start;text-align:left;border:1px solid rgba(226,159,52,.32);border-radius:12px;background:rgba(253,251,247,.06);color:rgba(253,251,247,.82);font-size:12px;line-height:1.55;padding:13px 15px;letter-spacing:.01em}
+.access-demo-notice-icon{flex:none;font-size:15px;line-height:1;margin-top:1px;color:var(--ochre)}
+.access-demo-notice-copy{display:block}
+.access-demo-notice b{display:block;font-weight:800;font-size:12.5px;margin-bottom:3px;letter-spacing:.01em;color:var(--ochre)}
+@media(max-width:700px){.access-demo-notice{font-size:11px;padding:12px 13px;gap:9px}.access-demo-notice-icon{font-size:14px}.access-demo-notice b{font-size:11.5px}}
 /* --- Candados de privacidad: bloque tapado, no vacio --- */
 .privacy-locked{display:flex;align-items:flex-start;gap:12px;background:rgba(22,61,96,.04);border:1px dashed var(--line);border-radius:12px;padding:16px 18px;margin-top:10px}
 .privacy-locked svg{flex:none;width:22px;height:22px;color:var(--navy);opacity:.75;margin-top:2px}
@@ -172,6 +172,17 @@ h1{
   color:#ffe0aa;
   font-size:clamp(16px,1.65vw,20px);
   font-weight:800;
+}
+/* Nota fina de demostracion bajo el titulo de la operacion: discreta, no un cartel.
+   Reutiliza el resumen_una_linea de la operacion (campo compartido con planNote),
+   pero aqui se pinta como pie de bloque, en el color de texto secundario del hero. */
+.demo-note{
+  margin:8px 0 0;
+  color:rgba(253,251,247,.62);
+  font-size:11.5px;
+  font-weight:500;
+  line-height:1.5;
+  font-style:italic;
 }
 .operation-location{
   display:flex;
@@ -417,17 +428,19 @@ body.bloqueado{background:var(--navy)}
 .access-logo{transition:width .28s cubic-bezier(.4,0,.2,1)}
 .access-title{transition:font-size .28s cubic-bezier(.4,0,.2,1),margin .28s ease}
 .access-context{transition:opacity .2s ease,max-height .28s cubic-bezier(.4,0,.2,1),margin .28s ease;max-height:80px;overflow:hidden}
+.access-demo-notice{transition:opacity .2s ease,max-height .3s cubic-bezier(.4,0,.2,1),margin .28s ease,padding .28s ease,border-width .28s ease;max-height:240px;overflow:hidden}
 .access-panel{transition:gap .28s cubic-bezier(.4,0,.2,1)}
 
 @media(max-width:900px){
   .access-screen:focus-within .access-logo{width:min(84px,24vw)}
   .access-screen:focus-within .access-title{font-size:20px;margin-top:0}
   .access-screen:focus-within .access-context{opacity:0;max-height:0;margin:0}
+  .access-screen:focus-within .access-demo-notice{opacity:0;max-height:0;margin:0;padding:0;border-width:0}
   .access-screen:focus-within .access-panel{gap:12px}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .access-logo,.access-title,.access-context,.access-panel{transition:none}
+  .access-logo,.access-title,.access-context,.access-demo-notice,.access-panel{transition:none}
 }
 /* Fases: cerradas por defecto, con resumen de lo que contienen y aspecto de desplegable */
 .phase-resumen{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.4;font-weight:500;max-width:52ch}
@@ -978,14 +991,6 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 <body class="bloqueado">
 <!-- cdu-tdc-8f3a91 · Visor del Inversor · CdU de 0 a Exito · marcado de autoria, no eliminar -->
 
-<div class="demo-banner" id="demoBanner">
-  <span class="demo-banner-icon" aria-hidden="true">⚠️</span>
-  <span class="demo-banner-copy">
-    <b>ESTO NO ES EL VISOR OFICIAL — Es una réplica exacta, creada para poder enseñarlo.</b>
-    <span>El visor real de cada operación contiene datos privados de los partícipes (cuenta de la operación, importes, movimientos y documentación) que no pueden mostrarse en abierto. Aquí ves el mismo sistema, con esos datos protegidos y difuminados conforme al RGPD. El avance de obra, los hitos, el cronograma y las imágenes son reales.</span>
-  </span>
-</div>
-
 <section class="access-screen" id="accessScreen" aria-labelledby="accessTitle">
   <div class="access-panel">
     <img class="access-logo" src="logo-cdu-blanco.png" alt="CdU">
@@ -993,6 +998,15 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
     <!-- Sin nombre de operacion: esta pantalla se ve SIN contrasena, y el nombre delataria
          de que operacion se trata a cualquiera que reciba el enlace. Mantener generico. -->
     <p class="access-context">Acceso privado para partícipes de la operación.</p>
+    <!-- Aviso de demostracion: solo existe en esta copia demo, nunca en el visor real.
+         Vive AQUI (pantalla de acceso), no en la portada, para que se lea antes de entrar. -->
+    <div class="access-demo-notice" role="note">
+      <span class="access-demo-notice-icon" aria-hidden="true">⚠️</span>
+      <span class="access-demo-notice-copy">
+        <b>ESTO NO ES EL VISOR OFICIAL — Es una réplica exacta, creada para poder enseñarlo.</b>
+        El visor real de cada operación contiene datos privados de los partícipes que no pueden mostrarse en abierto. Aquí ves el mismo sistema, con esos datos protegidos y difuminados conforme al RGPD. El avance de obra, los hitos, el cronograma y las imágenes son reales.
+      </span>
+    </div>
     <form class="access-form" id="accessForm" autocomplete="off">
       <div class="access-field">
         <label for="accessPassword">Contraseña</label>
@@ -1029,7 +1043,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
         </div>
         <div class="operation-block">
           <h1 id="operationName">Operación: pendiente de confirmar</h1>
-          <p class="headline-line" id="operationSummary">pendiente de confirmar</p>
+          <p class="demo-note" id="operationSummary">pendiente de confirmar</p>
           <p class="operation-location" id="operationLocation">pendiente de confirmar</p>
           <p class="subhead">Primero claridad. Luego control. Y al final, resultado. Una operación medida, documentada y visible de principio a fin.</p>
         </div>
