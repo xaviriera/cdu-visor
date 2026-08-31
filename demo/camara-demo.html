@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cámara de obra · demo</title>
+<style>
+  html,body{margin:0;height:100%;background:#0f2c47}
+  .wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 2px, transparent 2px 14px),
+      radial-gradient(circle at 30% 20%, #1c4569 0%, #0f2c47 60%, #0a1f36 100%);
+  }
+  .badge{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.35);color:#fff;font:700 11px/1 system-ui,sans-serif;letter-spacing:.04em;padding:6px 10px;border-radius:999px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#ff4d4d;box-shadow:0 0 0 0 rgba(255,77,77,.6);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,77,77,.55)}70%{box-shadow:0 0 0 8px rgba(255,77,77,0)}100%{box-shadow:0 0 0 0 rgba(255,77,77,0)}}
+  .center{color:rgba(255,255,255,.82);text-align:center;font:600 13px/1.5 system-ui,sans-serif}
+  .center b{display:block;font-size:15px;color:#fff;margin-bottom:4px}
+  .ts{position:absolute;bottom:12px;right:14px;color:rgba(255,255,255,.55);font:600 10.5px/1 ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="badge"><span class="dot"></span> EN DIRECTO</div>
+  <div class="center"><b id="camLabel">Cámara de obra</b>Vista simulada · demostración</div>
+  <div class="ts" id="ts"></div>
+</div>
+<script>
+  const params=new URLSearchParams(location.search);
+  const cam=params.get("cam")||"1";
+  document.getElementById("camLabel").textContent="Cámara "+cam+" · obra";
+  document.getElementById("ts").textContent=new Date().toLocaleString("es-ES");
+</script>
+</body>
+</html>
