@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seguimiento de obra</title>
+<title>Visor del Inversor</title>
 <meta name="description" content="Seguimiento de obra de la promoción.">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#163D60">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CdU de 0 a Éxito">
-<meta property="og:title" content="Seguimiento de obra · CdU de 0 a Éxito">
+<meta property="og:title" content="Visor del Inversor · CdU de 0 a Éxito">
 <meta property="og:description" content="Seguimiento de obra de la promoción.">
 <meta property="og:url" content="https://visor.tucambiodeuso.com/tdc-comercial/">
 <meta property="og:image" content="https://visor.tucambiodeuso.com/tdc/og-visor.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Seguimiento de obra de CdU de 0 a Éxito">
+<meta property="og:image:alt" content="Visor del Inversor de CdU de 0 a Éxito">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Seguimiento de obra · CdU de 0 a Éxito">
+<meta name="twitter:title" content="Visor del Inversor · CdU de 0 a Éxito">
 <meta name="twitter:description" content="Seguimiento de obra de la promoción.">
 <meta name="twitter:image" content="https://visor.tucambiodeuso.com/tdc/og-visor.png">
 <link rel="icon" type="image/png" href="favicon-cdu.png">
@@ -956,7 +956,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 <section class="access-screen" id="accessScreen" aria-labelledby="accessTitle">
   <div class="access-panel">
     <img class="access-logo" src="logo-cdu-blanco.png" alt="CdU">
-    <h1 class="access-title" id="accessTitle">Seguimiento de obra</h1>
+    <h1 class="access-title" id="accessTitle">Visor del Inversor</h1>
     <!-- Sin nombre de operacion: esta pantalla se ve SIN contrasena, y el nombre delataria
          de que operacion se trata a cualquiera que reciba el enlace. Mantener generico. -->
     <p class="access-context">Acceso reservado para uso comercial.</p>
@@ -991,7 +991,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
           <div class="brand">
             <img class="brand-logo" src="logo-cdu-blanco.png" alt="CdU">
           </div>
-          <div class="official-badge">Seguimiento de obra · Uso comercial</div>
+          <div class="official-badge">Visor del Inversor · Uso comercial</div>
           <p class="operation-title">El estado de la obra, al día</p>
         </div>
         <div class="operation-block">
@@ -1325,7 +1325,7 @@ function calcularPorcentajeAvance(estado){
 }
 function renderOperacion(){
   const operacion=datosOperacion.operacion || {};
-  document.title=`Seguimiento de obra · ${valor(operacion.nombre)}`;
+  document.title=`Visor del Inversor · ${valor(operacion.nombre)}`;
   document.getElementById("operationName").textContent=`Operación: ${valor(operacion.nombre)}`;
   document.getElementById("operationSummary").textContent=valor(operacion.resumen_una_linea);
   document.getElementById("operationLocation").textContent=valor(operacion.direccion);
