@@ -797,6 +797,7 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
 .bitacora-entry::before{content:"";position:absolute;left:-18px;top:20px;width:7px;height:7px;border-radius:50%;background:rgba(22,61,96,.28);box-shadow:0 0 0 4px var(--cream)}
 .bitacora-entry.latest{border-left:4px solid var(--ochre);background:#fffaf0}
 .bitacora-entry.latest::before{left:-20px;top:24px;width:10px;height:10px;background:var(--ochre);box-shadow:0 0 0 5px rgba(226,159,52,.18)}
+.bitacora-entry p{white-space:pre-line}
 .entry.market.nueva{border-left:4px solid var(--ochre);background:#fffaf0}
 .entry-latest-label{display:inline-flex;width:max-content;max-width:100%;margin-bottom:8px;padding:5px 9px;border-radius:999px;background:var(--navy);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.4px;line-height:1;text-transform:uppercase}
 .report{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px;color:var(--white);background:linear-gradient(135deg,var(--navy2),var(--navy))}
@@ -944,6 +945,10 @@ td.doc a{color:var(--navy);font-weight:800;text-decoration:none}
   .report{display:block}
   .report .btn{margin-top:16px}
 }
+</style>
+<style>
+.commercial-banner{position:sticky;top:0;z-index:25;padding:12px 20px;background:#163D60;color:#fff;border-bottom:3px solid #E29F34;font-family:Montserrat,sans-serif;font-size:13px;font-weight:700;line-height:1.5;text-align:center;overflow-wrap:anywhere}
+#cuentas[hidden],#documentacion[hidden],#nextReport[hidden]{display:none}
 </style>
 </head>
 <body class="bloqueado">
@@ -1537,6 +1542,7 @@ function renderEstado(){
     </div>`;
 }
 function renderProximoReporte(){
+  if(!mostrarSeccionOpcional("proximo_reporte","nextReport")) return;
   const reporte=datosOperacion.proximo_reporte || {};
   document.getElementById("nextReport").innerHTML=`
     <span>Próxima reunión de avances</span>
@@ -1713,6 +1719,7 @@ function renderGantt(){
   document.getElementById("gantt").innerHTML=head+rows;
 }
 function renderEconomico(){
+  if(!mostrarSeccionOpcional("cuentas","cuentas")) return;
   const cuentas=datosOperacion.cuentas || {};
   document.getElementById("iban").innerHTML=`${escapeHtml(valor(cuentas.iban))} <small>Cuenta dedicada de la operación</small>`;
   const saldo=valor(cuentas.saldo);
@@ -1934,6 +1941,7 @@ function renderFotosAvance(){
   });
 }
 function renderFolders(){
+  if(!mostrarSeccionOpcional("documentacion","documentacion")) return;
   const docs=(datosOperacion.documentacion || []).filter(item=>item.visible!==false);
   document.getElementById("folders").innerHTML=docs.map(item=>`
     <a class="folder card" href="${escapeAttr(item.url_drive || "#")}" target="_blank" rel="noopener">${folderIcon()}<span>${escapeHtml(valor(item.nombre))}</span></a>
@@ -1981,7 +1989,31 @@ function renderContacto(){
     enlace.removeAttribute("href");
   }
 }
+function mostrarSeccionOpcional(clave,id){
+  const visible=Object.prototype.hasOwnProperty.call(datosOperacion,clave);
+  document.getElementById(id).hidden=!visible;
+  document.querySelectorAll(`a[href="#${id}"]`).forEach(enlace=>{enlace.hidden=!visible;});
+  return visible;
+}
+function renderModoComercial(){
+  const modo=datosOperacion.modo_comercial;
+  if(modo){
+    let banda=document.getElementById("commercialBanner");
+    if(!banda){
+      banda=document.createElement("div");
+      banda.id="commercialBanner";
+      banda.className="commercial-banner";
+      document.body.prepend(banda);
+    }
+    banda.textContent=modo.etiqueta || "";
+    if(Object.prototype.hasOwnProperty.call(modo,"pie_legal")){
+      document.querySelector("footer.legal").textContent=modo.pie_legal;
+    }
+  }
+  mostrarSeccionOpcional("escenario_economico","escenarioEconomicoSection");
+}
 function renderTodo(){
+  renderModoComercial();
   renderOperacion();
   renderPlanos();
   renderEstado();
